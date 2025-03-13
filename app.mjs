@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { writeFile } from "fs/promises";
 
 const RIS = 'https://spacescavanger.onrender.com/';
 const API = 'https://api.le-systeme-solaire.net/rest/bodies/';
