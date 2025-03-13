@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 
 const RIS = 'https://spacescavanger.onrender.com/';
+const API = 'https://api.le-systeme-solaire.net/rest/bodies/';
 const player = 'mariuha@uia.no';
 
 const startURL = `${RIS}start?player=${player}`;
