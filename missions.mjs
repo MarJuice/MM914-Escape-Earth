@@ -1,4 +1,4 @@
-import { corpAPI, compare, answer, closest } from "./app.mjs";
+import { corpAPI, compare, answer, closest, count } from "./app.mjs";
 
 //#region corp api solutions
 
@@ -17,4 +17,9 @@ await answer(axialTiltData.englishName);
 let shortestDayData = await corpAPI("?data=englishName,sideralRotation&filter[]=isPlanet,eq,true") // Extract sideralRotation data from planets from the API
     .then(data => closest(data, 0, "sideralRotation")); // Find the planet with shortest sideral rotation (closest to 0)
 await answer(shortestDayData.englishName);
+
+// Find the number of moons Jupiter has
+let jupiterMoonsData = await corpAPI("jupiter") // Extract data for Jupiter from API
+    .then(data => count(data, "moons")); // Count the number of moons 
+await answer(jupiterMoonsData);
 
