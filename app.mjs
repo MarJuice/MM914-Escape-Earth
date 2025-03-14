@@ -62,6 +62,13 @@ function count(data, property) {
     return data[property].length;
 }
 
+function largest(data, property) {
+    let largest = data.reduce((largest, obj) => {
+        return obj[property] > largest[property] ? obj : largest;
+    });
+    return largest;
+}
+
 //endregion
 
-export { corpAPI, answer, compare, closest, count };
+export { corpAPI, answer, compare, closest, count, largest };
