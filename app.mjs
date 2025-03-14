@@ -1,10 +1,13 @@
 import fetch from "node-fetch";
 import { writeFile } from "fs/promises";
 
+//#region api urls
 const RIS = 'https://spacescavanger.onrender.com/';
 const API = 'https://api.le-systeme-solaire.net/rest/bodies/';
 const player = 'mariuha@uia.no';
+//endregion
 
+//#region fetch api
 const startURL = `${RIS}start?player=${player}`;
 const start = await fetch(startURL, { method: 'GET' });
 const startResponse = await start.json();
@@ -12,7 +15,7 @@ console.log(startResponse);
 
 const answerURL = `${RIS}answer`;
 async function answer(solution) {
-      
+
     const request = await fetch(answerURL, {
         method: 'POST',
         body: JSON.stringify({ answer: solution, player: player}),
@@ -22,19 +25,9 @@ async function answer(solution) {
     });
 
     const response = await request.json();
+    console.log('answer: '+ solution);
     console.log(response);
 
-}
-
-// Find difference between the equatorial radius and the mean radius of the Sun
-let data = await corpAPI("sun")
-    .then(data => compare(data.meanRadius, data.equaRadius));
-    console.log(data);
-answer(data);
-
-async function compare(value1, value2) {
-    let diff = value1 - value2;
-    return Math.abs(diff);
 }
 
 async function corpAPI(query) {
@@ -50,3 +43,20 @@ async function corpAPI(query) {
     writeFile('data.json', JSON.stringify(data, null, 2));
     return data;
 }
+//#endregion
+
+//#region helper functions
+function compare(value1, value2) {
+    let diff = value1 - value2;
+    return Math.abs(diff);
+}
+
+function closest(data, target, property) {
+    let closest = data.bodies.reduce((closest, obj) => {
+        return Math.abs(obj[property] - target) < Math.abs(closest[property] - target) ? obj : closest;
+    });
+    return closest;
+}
+//endregion
+
+export { corpAPI, answer, compare, closest };
