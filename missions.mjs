@@ -12,3 +12,9 @@ let axialTiltData = await corpAPI("?data=englishName,axialTilt&filter[]=axialTil
     .then(data => closest(data, 23.44, "axialTilt")); // Find the planet closest to earths axial tilt
 await answer(axialTiltData.englishName);
 //endregion
+
+// Find the planet with the shortest day
+let shortestDayData = await corpAPI("?data=englishName,sideralRotation&filter[]=isPlanet,eq,true") // Extract sideralRotation data from planets from the API
+    .then(data => closest(data, 0, "sideralRotation")); // Find the planet with shortest sideral rotation (closest to 0)
+await answer(shortestDayData.englishName);
+
