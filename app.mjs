@@ -57,6 +57,11 @@ function closest(data, target, property) {
     });
     return closest;
 }
+
+function count(data, property) {
+    return data[property].length;
+}
+
 //endregion
 
 export { corpAPI, answer, compare, closest };
