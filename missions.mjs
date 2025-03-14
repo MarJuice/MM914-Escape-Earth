@@ -1,4 +1,4 @@
-import { corpAPI, compare, answer, closest, count } from "./app.mjs";
+import { corpAPI, compare, answer, closest, count, largest } from "./app.mjs";
 
 //#region corp api solutions
 
@@ -11,7 +11,6 @@ await answer(sunData);
 let axialTiltData = await corpAPI("?data=englishName,axialTilt&filter[]=axialTilt,gt,0&filter[]=isPlanet,eq,true&filter[]=englishName,neq,earth") // Extract name and axial tilt for planets greater than 0 (excluding earth)
     .then(data => closest(data, 23.44, "axialTilt")); // Find the planet closest to earths axial tilt
 await answer(axialTiltData.englishName);
-//endregion
 
 // Find the planet with the shortest day
 let shortestDayData = await corpAPI("?data=englishName,sideralRotation&filter[]=isPlanet,eq,true") // Extract sideralRotation data from planets from the API
@@ -23,3 +22,13 @@ let jupiterMoonsData = await corpAPI("jupiter") // Extract data for Jupiter from
     .then(data => count(data, "moons")); // Count the number of moons 
 await answer(jupiterMoonsData);
 
+// Find the largest moon of Jupiter
+let jupiterLargestMoonData = await corpAPI("?data=englishName,mass,massValue,massExponent&filter[]=aroundPlanet,eq,jupiter") // Extract names and masses of all moons orbiting Jupiter from the API
+    .then(data => data.bodies.map(item => ({ // Map over all the moons
+        ...item, // Keep old items
+        massNumeric: item.mass?.massValue * 10 ** item.mass?.massExponent // Create new massNumeric property calculated by mass coefficient and exponent
+    })))
+    .then(data => largest(data, "massNumeric")); // Find the largest mass from the new massNumeric property
+await answer(jupiterLargestMoonData.englishName);
+
+//endregion
