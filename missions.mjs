@@ -31,4 +31,8 @@ let jupiterLargestMoonData = await corpAPI("?data=englishName,mass,massValue,mas
     .then(data => largest(data, "massNumeric")); // Find the largest mass from the new massNumeric property
 await answer(jupiterLargestMoonData.englishName);
 
+// Find Pluto's classification
+let plutoClassificationData = await corpAPI("?data=englishName,bodyType&filter[]=englishName,eq,pluto") // Extract Pluto's englishName and bodyType classification from the API
+await answer(plutoClassificationData.bodies[0].bodyType);
+
 //endregion
