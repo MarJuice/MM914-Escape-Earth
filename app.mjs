@@ -64,4 +64,4 @@ function count(data, property) {
 
 //endregion
 
-export { corpAPI, answer, compare, closest };
+export { corpAPI, answer, compare, closest, count };
